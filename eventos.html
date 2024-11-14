@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EVENTOS ESCOLARES</title>
+  <link rel="shortcut icon" type="image/png" sizes="32x32" href="./assets/images/favicon.png">
+
+  <link rel="stylesheet" href="./assets/css/style.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <style>
+    .image-album {
+      padding: 2rem 0;
+      text-align: center;
+    }
+
+    .image-album h2 {
+      margin-bottom: 1.5rem;
+      font-size: 2rem;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .album-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .album-grid img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .album-grid img:hover {
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal {
+      display: none; 
+      position: fixed; 
+      z-index: 1; 
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto; 
+      background-color: rgb(0, 0, 0); 
+      background-color: rgba(0, 0, 0, 0.9); 
+    }
+
+    .modal-content {
+      margin: auto;
+      display: block;
+      width: 80%;
+      max-width: 700px;
+    }
+
+    .modal-content {
+      animation-name: zoom;
+      animation-duration: 0.6s;
+    }
+
+    @keyframes zoom {
+      from {transform: scale(0)}
+      to {transform: scale(1)}
+    }
+
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 35px;
+      color: #f1f1f1;
+      font-size: 40px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #bbb;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .events-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+      
+      .event-item {
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 8px;
+      }
+      
+      .event-carousel {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+      }
+      
+      .carousel-container {
+        display: flex;
+        transition: transform 0.5s ease;
+      }
+      
+      .carousel-item {
+        width: 100%;
+        flex-shrink: 0;
+      }
+
+      footer {
+        margin-top: 50px; /* Ajusta el valor según sea necesario */
+      }
+
+      /* Estilos para los cuadros de eventos */
+.event-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    overflow: hidden;
+    margin-bottom: 40px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .event-card:hover {
+    transform: translateY(-10px); /* Pequeña elevación al pasar el mouse */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada */
+  }
+  
+  /* Imagen del evento en la parte superior */
+  .event-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 3px solid #007bff; /* Barra de color debajo de la imagen */
+  }
+  
+  /* Contenedor de la información del evento */
+  .event-info {
+    padding: 20px;
+  }
+  
+  /* Título del evento */
+  .event-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  /* Fecha y hora del evento */
+  .event-date {
+    font-size: 1.1em;
+    color: #007bff; /* Color primario para resaltar */
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .event-date span {
+    font-weight: bold;
+  }
+  
+  /* Descripción del evento */
+  .event-description {
+    font-size: 1em;
+    color: #666;
+    line-height: 1.6;
+  }
+  
+  /* Botón para ver más o registrarse */
+  .event-button {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .event-button:hover {
+    background-color: #0056b3; /* Color más oscuro al pasar el mouse */
+  }
+  
+  /* Estilo para un carrusel automático de imágenes (si es necesario) */
+  .event-carousel {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px; /* Bordes redondeados */
+    width: 100%; /* Ajustar al contenedor */
+}
+
+.carousel-container {
+    display: flex;
+    transition: transform 0.5s ease; /* Transición suave */
+    width: 100%; /* Ancho del contenedor */
+}
+
+.carousel-item {
+  min-width: 100%; /* Cada item ocupa el 100% del ancho del contenedor */
+  height: 400px; /* Ajusta la altura para agrandar el tamaño */
+  object-fit: cover; /* Mantiene proporciones para imágenes y videos */
+  border-radius: 12px; /* Bordes redondeados para una apariencia uniforme */
+}
+
+.event-details {
+    margin-top: 10px;
+    transition: max-height 0.3s ease;
+    overflow: hidden; /* Para evitar desbordamientos */
+}
+
+.event-button {
+    cursor: pointer; /* Cambiar el cursor al pasar sobre el botón */
+}
+
+.event-media {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+  object-fit: cover;
+}
+      
+  </style>
+</head>
+<body>
+  
+  <header class="header" data-header>
+
+    <div class="overlay" data-overlay></div>
+
+    <div class="header-top">
+      <div class="container">
+
+        <ul class="header-top-list">
+
+
+          <li>
+            <a href="https://maps.app.goo.gl/CgEWjJAajMvfJ3q86" class="header-top-link">
+              <ion-icon name="location-outline"></ion-icon>
+
+              <address>BOGOTA D.C | Cl. 81 Sur #42- 09 | Ciudad Bolivar </address>
+            </a>
+          </li>
+
+
+        </ul>
+
+        <div class="wrapper">
+          <ul class="header-top-social-list">
+
+            <li>
+              <a href="mailto:colegioices@gmail.com" class="header-top-social-link">
+                <ion-icon name="mail"></ion-icon>
+              </a>
+            </li>
+
+            <li>
+              <a href="https://api.whatsapp.com/send?phone=573142990605&text=Hola,%20quisiera%20más%20información%20de%20cómo%20ayudar." class="header-top-social-link">
+                <ion-icon name="logo-whatsapp"></ion-icon>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.facebook.com/profile.php?id=100064742769808&mibextid=kFxxJD"
+                class="header-top-social-link">
+                <ion-icon name="logo-facebook"></ion-icon>
+              </a>
+            </li>
+
+          </ul>
+
+        </div>
+
+      </div>
+    </div>
+
+    <div class="header-bottom">
+      <div class="container">
+
+        <a href="index.html" class="logo2">
+          <img src="./assets/images/LOGO2.png" alt="LOGO ICES">
+        </a>
+
+        <nav class="navbar" data-navbar>
+
+          <div class="navbar-top">
+
+            <button class="nav-close-btn" data-nav-close-btn aria-label="Close Menu">
+              <ion-icon name="close-outline"></ion-icon>
+            </button>
+
+          </div>
+
+          <div class="navbar-bottom">
+            <ul class="navbar-list">
+
+              <li>
+                <a href="index.html" class="navbar-link" data-nav-link>INICIO</a>
+              </li>
+
+              <li>
+                <a href="informacion.html" class="navbar-link" data-nav-link>NOSOTROS</a>
+              </li>
+
+              <li>
+                <a href="proyectos.html" class="navbar-link" data-nav-link>PROYECTOS</a>
+              </li>
+
+              <li>
+                <a href="index.html#blog" class="navbar-link" data-nav-link>TESTIMONIOS</a>
+              </li>
+
+              <li>
+                <a href="comoayudar.html" class="navbar-link" data-nav-link> COMO AYUDAR</a>
+              </li>
+
+              <li>
+                <a href="album.html" class="navbar-link" data-nav-link>ALBUM</a>
+              </li>
+
+              <li>
+                <a href="eventos.html" class="navbar-link" data-nav-link>EVENTOS</a>
+              </li>
+
+            </ul>
+          </div>
+
+        </nav>
+
+        <div class="header-bottom-actions">
+
+          <button class="header-bottom-actions-btn" data-nav-open-btn aria-label="Open Menu">
+            <ion-icon name="menu-outline"></ion-icon>
+
+            <span>Menu</span>
+          </button>
+
+        </div>
+
+      </div>
+    </div>
+
+  </header>
+
+  <section class="events-section">
+    <div class="container">
+        <h2 class="section-title">Eventos Escolares</h2>
+
+        <!-- Primer evento -->
+        <div class="event-card">
+            <div class="event-carousel">
+                <div class="carousel-container">
+                    <img src="assets/images//eventos/imagen1.jpeg" alt="Imagen del evento 1" class="carousel-item">
+                    <img src="assets/images//eventos/imagen2.jpeg" alt="Imagen del evento 1" class="carousel-item">
+                    <img src="assets/images//eventos/imagen3.jpeg" alt="Imagen del evento 1" class="carousel-item">
+                    <img src="assets/images//eventos/imagen4.jpeg" alt="Imagen del evento 1" class="carousel-item">
+                </div>
+            </div>
+            <div class="event-info">
+                <h3 class="event-title">Novena de Aguinaldos</h3>
+                <div class="event-date">
+                    <span>Fecha:</span> Del 16 al 24 de diciembre 2024
+                    <span>Hora:</span> 01:00 PM
+                </div>
+                <p class="event-description">Ven y aporta tu regalo  para los y las niñas de nuestro barrio en noche buena.</p>
+                <button class="event-button" onclick="toggleDetails(this)">Ver más detalles</button>
+                <div class="event-details" style="display: none;">
+                    <p>Únete a la celebración de la tradicional Novena de Aguinaldos, un evento especial que se lleva a cabo del 16 al 24 de diciembre. Ven y contribuye con un regalo para alegrar la nochebuena de los niños y niñas de nuestra comunidad. Tu apoyo hará una gran diferencia en estas fechas festivas, brindándoles una Navidad inolvidable llena de alegría y amor.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Segundo evento -->
+        <div class="event-card">
+          <div class="event-carousel">
+            <div class="carousel-container">
+                <video class="carousel-item" src="assets/videos/eventos/aguinaldos.mp4" controls></video>
+            </div>
+        </div>
+            <div class="event-info">
+                <h3 class="event-title">Novena de aguinaldos</h3>
+                <div class="event-date">
+                    <span>Fecha:</span> Del 16 al 24 de diciembre 2024
+                    <span>Hora:</span> 1:00 PM
+                </div>
+                <p class="event-description">Por mas  de 30 años haciendo la novena de aguinaldos en el territorio y llevando alegría a los  hogares de nuestra comunidad.</p>
+                <button class="event-button" onclick="toggleDetails(this)">Ver más detalles</button>
+                <div class="event-details" style="display: none;">
+                    <p>Únete a la celebración de la tradicional Novena de Aguinaldos, un evento especial que se lleva a cabo del 16 al 24 de diciembre. Ven y contribuye con un regalo para alegrar la nochebuena de los niños y niñas de nuestra comunidad. Tu apoyo hará una gran diferencia en estas fechas festivas, brindándoles una Navidad inolvidable llena de alegría y amor.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const carouselContainer = document.querySelector('.carousel-container');
+        const images = carouselContainer.querySelectorAll('.carousel-item');
+        let index = 0;
+
+        function showNextImage() {
+            index++;
+            if (index >= images.length) {
+                index = 0; // Volver al principio
+            }
+            carouselContainer.style.transform = `translateX(-${index * 100}%)`;
+        }
+
+        setInterval(showNextImage, 5000); // Cambiar cada 5 segundos
+    });
+
+    function toggleDetails(button) {
+        const details = button.nextElementSibling; // Selecciona el div de detalles
+
+        if (details.style.display === "none" || details.style.display === "") {
+            details.style.display = "block"; // Muestra los detalles
+            button.innerText = "Ver menos"; // Cambia el texto del botón
+        } else {
+            details.style.display = "none"; // Oculta los detalles
+            button.innerText = "Ver más detalles"; // Restablece el texto del botón
+        }
+    }
+</script>
+
+  <footer class="footer">
+
+    <div class="footer-top">
+      <div class="container">
+
+        <div class="footer-brand">
+
+          <a href="#" class="logo">
+            <img src="./assets/images/LOGO.jpeg" alt="ICES LOGO PNG">
+          </a>
+
+          <p class="section-text">
+        
+          </p>
+
+          <div class="main">
+            <div class="up">
+              <button class="card1" >
+                <svg class="instagram" fill-rule="nonzero" height="50px" width="40px" viewBox="0,0,256,256"
+                  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+                  <g style="mix-blend-mode: normal" text-anchor="none" font-size="none" font-weight="none"
+                    font-family="none" stroke-dashoffset="0" stroke-dasharray="" stroke-miterlimit="10"
+                    stroke-linejoin="miter" stroke-linecap="butt" stroke-width="1" stroke="none" fill-rule="nonzero">
+                    <g transform="scale(8,8)">
+                      <path
+                        d="M11.46875,5c-3.55078,0 -6.46875,2.91406 -6.46875,6.46875v9.0625c0,3.55078 2.91406,6.46875 6.46875,6.46875h9.0625c3.55078,0 6.46875,-2.91406 6.46875,-6.46875v-9.0625c0,-3.55078 -2.91406,-6.46875 -6.46875,-6.46875zM11.46875,7h9.0625c2.47266,0 4.46875,1.99609 4.46875,4.46875v9.0625c0,2.47266 -1.99609,4.46875 -4.46875,4.46875h-9.0625c-2.47266,0 -4.46875,-1.99609 -4.46875,-4.46875v-9.0625c0,-2.47266 1.99609,-4.46875 4.46875,-4.46875zM21.90625,9.1875c-0.50391,0 -0.90625,0.40234 -0.90625,0.90625c0,0.50391 0.40234,0.90625 0.90625,0.90625c0.50391,0 0.90625,-0.40234 0.90625,-0.90625c0,-0.50391 -0.40234,-0.90625 -0.90625,-0.90625zM16,10c-3.30078,0 -6,2.69922 -6,6c0,3.30078 2.69922,6 6,6c3.30078,0 6,-2.69922 6,-6c0,-3.30078 -2.69922,-6 -6,-6zM16,12c2.22266,0 4,1.77734 4,4c0,2.22266 -1.77734,4 -4,4c-2.22266,0 -4,-1.77734 -4,-4c0,-2.22266 1.77734,-4 4,-4z">
+                      </path>
+                    </g>
+                  </g>
+                </svg>
+              </button>
+              <button class="card2" onclick="facebook()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="50px" width="30px"
+                  class="facebook">
+                  <path
+                    d="M9.19795 21.5H13.198V13.4901H16.8021L17.198 9.50977H13.198V7.5C13.198 6.94772 13.6457 6.5 14.198 6.5H17.198V2.5H14.198C11.4365 2.5 9.19795 4.73858 9.19795 7.5V9.50977H7.19795L6.80206 13.4901H9.19795V21.5Z">
+                  </path>
+                </svg>
+              </button>
+            </div>
+            <div class="down">
+              <button class="card3" onclick="whatsapp()">
+                <svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="whatsapp">
+                  <path
+                    d="M19.001 4.908A9.817 9.817 0 0 0 11.992 2C6.534 2 2.085 6.448 2.08 11.908c0 1.748.458 3.45 1.321 4.956L2 22l5.255-1.377a9.916 9.916 0 0 0 4.737 1.206h.005c5.46 0 9.908-4.448 9.913-9.913A9.872 9.872 0 0 0 19 4.908h.001ZM11.992 20.15A8.216 8.216 0 0 1 7.797 19l-.3-.18-3.117.818.833-3.041-.196-.314a8.2 8.2 0 0 1-1.258-4.381c0-4.533 3.696-8.23 8.239-8.23a8.2 8.2 0 0 1 5.825 2.413 8.196 8.196 0 0 1 2.41 5.825c-.006 4.55-3.702 8.24-8.24 8.24Zm4.52-6.167c-.247-.124-1.463-.723-1.692-.808-.228-.08-.394-.123-.556.124-.166.246-.641.808-.784.969-.143.166-.29.185-.537.062-.247-.125-1.045-.385-1.99-1.23-.738-.657-1.232-1.47-1.38-1.716-.142-.247-.013-.38.11-.504.11-.11.247-.29.37-.432.126-.143.167-.248.248-.413.082-.167.043-.31-.018-.433-.063-.124-.557-1.345-.765-1.838-.2-.486-.404-.419-.557-.425-.142-.009-.309-.009-.475-.009a.911.911 0 0 0-.661.31c-.228.247-.864.845-.864 2.067 0 1.22.888 2.395 1.013 2.56.122.167 1.742 2.666 4.229 3.74.587.257 1.05.408 1.41.523.595.19 1.13.162 1.558.1.475-.072 1.464-.6 1.673-1.178.205-.58.205-1.075.142-1.18-.061-.104-.227-.165-.475-.29Z">
+                  </path>
+                </svg>
+              </button>
+              <button class="card4" onclick="mail()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="24" class="gmail"
+                  width="24">
+                  <path
+                    d="M6 12C6 15.3137 8.68629 18 12 18C14.6124 18 16.8349 16.3304 17.6586 14H12V10H21.8047V14H21.8C20.8734 18.5645 16.8379 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C15.445 2 18.4831 3.742 20.2815 6.39318L17.0039 8.68815C15.9296 7.06812 14.0895 6 12 6C8.68629 6 6 8.68629 6 12Z">
+                  </path>
+                </svg>
+              </button>
+            </div>
+          </div>
+          
+        </div>
+
+        <div class="footer-link-box">
+
+          <ul class="footer-list">
+
+            <li>
+              <p class="footer-list-title">INSTITUTO</p>
+            </li>
+
+            <li></li>
+              <a href="index.html#about" class="footer-link">Acerca</a>
+            </li>
+
+            <li>
+              <a href="index.html#blog" class="footer-link">Blog</a>
+            </li>
+
+            <li>
+              <a href="index.html#features" class="footer-link">Proyectos</a>
+            </li>
+
+            <li>
+              <a href="#" class="footer-link">FAQ</a>
+            </li>
+
+            <li>
+              <a href="comoayudar.html" class="footer-link">Contactenos</a>
+            </li>
+
+          </ul>
+
+          <ul class="footer-list">
+
+            <li>
+              <p class="footer-list-title">Como ayudar</p>
+            </li>
+
+            <li>
+              <a href="comoayudar.html" class="footer-link">Ayudanos</a>
+            </li>
+
+            <li>
+              <a href="#" class="footer-link">Terminos & Condiciones</a>
+            </li>
+          </ul>
+
+        </div>
+
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container">
+
+        <p class="copyright">
+          &copy; 2024 <a href="#">UNIVERSIDAD CATOLICA | INSTITUTO ICES CERROS DEL SUR</a>. 
+        </p>
+
+      </div>
+    </div>
+
+  </footer>
+
+  <script src="./assets/js/script.js"></script>
+
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+</body>
+</html>
