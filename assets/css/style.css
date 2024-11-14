@@ -1101,9 +1101,16 @@ max-width: 100px; max-height: 70px; }
 
 .footer-brand { margin-bottom: 70px; }
 
-.logo2>img{ width: 120px;}
+
+.logo2>img{max-width: 120px;}
 
 .logo>img{max-width: 200px;}
+
+.header-bottom .logo2 img {
+  margin-inline: auto;
+  max-width: 100px;
+  max-height: 70px;
+}
 
 .footer-brand .logo { max-width: 20px; }
 
